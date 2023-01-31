@@ -1,0 +1,36 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="wasm_exec.js"></script>
+    <script>
+        const go = new Go();
+        WebAssembly.instantiateStreaming(fetch("prettyjson.wasm"), go.importObject).then((result) => {
+            go.run(result.instance);
+        });
+    </script>
+</head>
+
+<body>
+    <h1 class="text-3xl font-bold">Pretty Json</h1>
+    <div class="flex flex-row gap-8 p-8">
+        <textarea id="jsoninput" name="jsoninput" cols="80" rows="15" placeholder="Paste valid json string"
+            class="border-2 border-gray-300 rounded-md p-2"></textarea>
+        <div>
+            <button onclick="json(jsoninput.value)" class="bg-sky-500 hover:bg-sky-700 text-white">
+                Prettify Json >
+            </button>
+        </div>
+        <textarea id="jsonoutput" name="jsonoutput" cols="80" rows="20"
+            class="border-2 border-gray-300 rounded-md p-2"></textarea>
+    </div>
+</body>
+<script>
+    var json = function (input) {
+        jsonoutput.value = prettyJson(input)
+    }
+</script>
+
+</html>
